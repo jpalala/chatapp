@@ -1,0 +1,18 @@
+doctype
+html
+    head
+        title= "Welcome to BitChat"
+        script(src='/jq.js')
+        script(src='/code.js')
+        script(src='/socket.io/socket.io.js')
+    body
+        #content(style='width: 500px; height: 300px; margin: 0 0 20px 0; border: solid 1px #999; overflow-y: scroll;')
+        .controls
+            | Name:
+            input#name(style='width:350px;')
+            br
+            input(id='field', style='width:350px;')
+            input.send(id='send', type='button', value='send')
+            br
+            | Chat Log:
+            input#status(style='width:500px;')
