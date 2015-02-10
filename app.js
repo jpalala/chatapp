@@ -78,7 +78,7 @@ var monk = require('monk');
 var db = monk('localhost:27017/nodetest1');
 
 //chat server port
-var port = 3700;
+var port = 8081;
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var onlineusers = require('./routes/onlineusers');
