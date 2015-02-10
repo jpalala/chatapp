@@ -10,7 +10,6 @@ var mysql = require('mysql');
 var passport = require('passport');
 var flash = require('connect-flash');
 var configDB = require('./config/database.js');
-
 //console.log(configDB);
 var connection = mysql.createConnection({
     host     :  'localhost',
@@ -46,6 +45,8 @@ var reportCount = function() {
   console.log('TOTAL COUNT:', count);
 }
 
+
+
 function getIPs(server) {
   var handles = process._getActiveHandles(),
       ips = [];
@@ -78,7 +79,7 @@ var monk = require('monk');
 var db = monk('localhost:27017/nodetest1');
 
 //chat server port
-var port = 8081;
+var port = 80;
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var onlineusers = require('./routes/onlineusers');
@@ -208,6 +209,8 @@ var server = app.listen(app.get('port'), function() {
 });
 
 var io = require('socket.io').listen(server.listen(port));
+
+//io.set('transports',['xhr-polling']);
 
 io.sockets.on('connection', function (socket) {
      getIPs();
