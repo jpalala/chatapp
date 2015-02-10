@@ -1,3 +1,5 @@
+var chatbot = require('bot');
+
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -34,6 +36,7 @@ connection.connect(function(err) {
 var count = 0;
 //count connections
 var connections = 0;
+
 var increaseCount = function() {
   console.log('new visitor!');
   connections++;
@@ -45,7 +48,11 @@ var reportCount = function() {
   console.log('TOTAL COUNT:', count);
 }
 
+//epalbot
+function epaloids() {
 
+
+}
 
 function getIPs(server) {
   var handles = process._getActiveHandles(),
@@ -72,7 +79,7 @@ var eventEmitter = new events.EventEmitter();
 
 eventEmitter.on('visit', increaseCount);
 eventEmitter.on('visit', reportCount);
-
+eventEmitter.on('msgreaceived', epaloids);
 // New Code
 var mongo = require('mongodb');
 var monk = require('monk');
@@ -231,7 +238,8 @@ io.sockets.on('connection', function (socket) {
 
     
     socket.emit('newvisit', { connections: connections}); 
-    
+
+        //message: say });
     // run the emit of EventSocket for the visit
     eventEmitter.emit('visit');
         
@@ -241,7 +249,25 @@ io.sockets.on('connection', function (socket) {
     socket.on('send', function (data) {
         
         io.sockets.emit('message', data);
-    });
+   	console.log(data);
+	// socket.on('umepal',  function(data) {
+         var dictionary = ['Chatbot says hello', 
+                           'Chatbot says hi', 'Chatbot says you are welcome here', 
+                           'Chatbot says you are so fine', 'Chatbot says Oh that\'s awesome', 
+			   'Chatbot says hello World to you too', 
+                           'Chatbot says Are you talking to me?', 
+                      'Chatbot says sorry, keep chatting', 
+                  'Chatbot plays epal','Chatbot says Chat with me, you shall', 
+                  'Chatbot says that\'s what she said', 
+                  'Chatbot says that was a joke, right?'];
+         var say = dictionary[Math.round(Math.random() * (dictionary.length - 1))];
+         var botdata = { message: say, username: 'Chatty Joe'}; 
+	io.sockets.emit('message' , botdata);
+         console.log(botdata);
+    	//});
+
+
+   });
 });
 
 

@@ -2,6 +2,7 @@ window.onload = function() {
  
     var messages = [];
     var conxs = [];
+    var epalmessages = [];
     var socket = io.connect('http://bitchat.jpalala.com');
     var field = document.getElementById("field");
     var sendButton = document.getElementById("send");
@@ -17,8 +18,11 @@ window.onload = function() {
                 html += '<b>' + (messages[i].username ? messages[i].username : 'Server') + ': </b>';
                 html += messages[i].message + '<br />';
             }
-            content.innerHTML = html;
-            content.scrollTop = content.scrollHeight;
+
+
+            
+		content.innerHTML = html;
+	            content.scrollTop = content.scrollHeight;
         } else {
             console.log("There is a problem:", data);
         }
@@ -38,12 +42,33 @@ window.onload = function() {
         status.value =  htmlstatus;
     });
 
+    socket.on('umepal', function (data) {
+        botmessages.push(data);
+        var htmlmessage = '';
+        for(var i =0; i<botmessages.length; i++) {
+            htmlmessage +=  botmessages.message;
+//.connections + ' more people who loaded this page';
+        }
+        
+        //clear it first
+        
+        status.value = '';
+        status.value =  htmlmessage;
+    });
+
+
     sendButton.onclick = function() {
         if(name.value == "") {
             alert("Please type your name!");
         } else {
             var text = field.value;
             socket.emit('send', { message: text, username: name.value });
+	   
+ 	   // socket.emit('send', { message: newmessage , username: 'Chatbot' });
+
+
+
+
             field.value = "";
         }
     };
