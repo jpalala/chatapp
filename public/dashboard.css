@@ -1,0 +1,120 @@
+.faint { color:#9cc; }
+pre { margin-top:30px; }
+.error { color:#333; }
+.footnote { color:#888; }
+body
+{
+  color:#333;
+  font-family:arial;
+  margin-left:20px;
+  font-size:13px;
+  font-family: arial, sans-serif;
+   word-wrap:break-word;text-align:center;
+}
+#content { border:0px solid orange;width:1050px;margin-left:auto;margin-right:auto }
+#banner
+{
+  background:white;
+  color:black;
+  border-bottom:1px dotted #aaa;
+  margin-bottom:0.7em;
+  width:980px;
+  padding-bottom:9px;
+  text-align:left;
+}
+
+a { text-decoration:none;color:#11a;}
+a:visited { color:#51a }
+
+#pinboard_name { font-size:18px;color:black; }
+
+blockquote
+{
+    background:#fffff1;
+    line-height:160%;
+    color:#555;
+    padding:10px;
+}
+
+#banner a { color:#aaa; }
+#banner a.admin { color:#e00 }
+#banner a.banner_username { color:blue; }
+
+#logo { float:left;width:270px;color:#aaa}
+.pin_logo { margin-right:2px; }
+#top_menu { margin-top:2px}
+#top_menu { float:right; }
+#top_menu a { color:blue }
+
+
+.alert { color:#333;background:#ced;padding:10px;width:550px;border:1px solid #acc; }
+.blog_title {font-size:1.3em;color:#248 }
+.blog_post { font-family:times;}
+
+ol { padding-left:20px; }
+
+h3 { font-size:1em;margin-top:30px; }
+
+code
+{
+  color:#555;
+}
+
+
+ 
+ #main_column
+ {
+  width:700px;
+  border:0px solid yellow;
+  min-height:500px;
+  text-align:left;
+  float:left;
+ }
+
+
+#footer
+{
+  margin-top:3em;color:#888;
+ }
+ 
+em { color:#aaa; font-style:italic}
+
+
+.rss_linkbox
+{
+    float:right;
+    margin-right:30px;
+}
+
+a.rss_link
+{
+    color:#ee9922;
+    font-size:0.8em;
+}
+
+
+    li
+    {
+        
+    }
+    #main_column
+    {
+        width:600px;
+    }
+    
+    #blog_content
+    {
+        line-height:130%;width:550px
+    }
+    
+    #blog_page_title
+    {
+        font-size:1.5em;
+        color:#55a;
+        margin-bottom:20px
+    }
+    #right_column
+    {
+        padding:20px;text-align:left;margin-left:20px;line-height:140%;background:#ffc;float:left;width:300px
+    }
+    
