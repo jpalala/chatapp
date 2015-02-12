@@ -1,5 +1,8 @@
-var chatbot = require('bot');
 
+
+var chatbot = require('bot');
+var http = require('http');
+var methodOverride = require('method-override');
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -10,49 +13,45 @@ var bodyParser = require('body-parser');
 var request = require('request');
 var mysql = require('mysql');
 var passport = require('passport');
+var LocalStrategy = require('passport-local');
+var TwitterStrategy = require('passport-twitter');
 var flash = require('connect-flash');
-var configDB = require('./config/database.js');
-//console.log(configDB);
-var connection = mysql.createConnection({
-    host     :  'localhost',
-    user     :  'user1',
-    password :  'ZhbBf2QTQStNe',
-    port     : '3306',
-    _socket  : '/var/run/mysqld/mysqld.sock'
-});
+var events = require('events');
 
-
-//database :  configDB.mysql_database
-connection.connect(function(err) {
-	if (err) { 
-		console.error('error connecting' + err.stack);
-                return;
-        }
-  console.log('connected as id' + connection.threadId);
-  //next();
-});
-
+// New Code
+var mongo = require('mongodb');
+var monk = require('monk');
+var db = monk('localhost:27017/nodetest1');
+//increase count functiobns
+ 
 //count visitors
 var count = 0;
 //count connections
 var connections = 0;
 
-var increaseCount = function() {
-  console.log('new visitor!');
-  connections++;
-  count++;
-} 
 
-//report counts
-var reportCount = function() {
-  console.log('TOTAL COUNT:', count);
-}
-
-//epalbot
-function epaloids() {
+//start express server
+var app = express();
 
 
-}
+var counter = require('./counter');
+
+app.set('connections', connections);
+app.set('count', count);
+
+
+//chat server port
+var port = 80;
+var routes = require('./routes/index');
+var users = require('./routes/users');
+var onlineusers = require('./routes/onlineusers');
+
+//chat variables
+var typing = false;
+var timeout = undefined;
+
+//handle eventEmitter
+//var eventEmitter = new events.EventEmitter();
 
 function getIPs(server) {
   var handles = process._getActiveHandles(),
@@ -72,32 +71,6 @@ function getIPs(server) {
 }
 
 
-
-//handle eventEmitter
-var events = require('events');
-var eventEmitter = new events.EventEmitter();
-
-eventEmitter.on('visit', increaseCount);
-eventEmitter.on('visit', reportCount);
-eventEmitter.on('msgreaceived', epaloids);
-// New Code
-var mongo = require('mongodb');
-var monk = require('monk');
-var db = monk('localhost:27017/nodetest1');
-
-//chat server port
-var port = 80;
-var routes = require('./routes/index');
-var users = require('./routes/users');
-var onlineusers = require('./routes/onlineusers');
-
-//chat variables
-var typing = false;
-var timeout = undefined;
-
-
-
-var app = express();
 //timeout function
 function clearTimeout( tO ) {
   var t0 = 0;
@@ -138,6 +111,7 @@ app.use(flash()); // use connect-flash for flash messages stored in session
 app.use(logger('dev'));
 //app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(methodOverride('X-HTTP-Method-Override'));
 app.use(cookieParser());
 
 
@@ -215,34 +189,62 @@ var server = app.listen(app.get('port'), function() {
 
 });
 
+//eventEmitter.on('visit', counter.increaseCount(count));
+//eventEmitter.on('visit', counter.reportCount(count));
+
+//eventEmitter.on('msgreaceived', epaloids);
+
+
+var configDB = require('./config/database.js');
+//console.log(configDB);
+var connection = mysql.createConnection({
+    host     :  'localhost',
+    user     :  'user1',
+    password :  'ZhbBf2QTQStNe',
+    port     : '3306',
+    _socket  : '/var/run/mysqld/mysqld.sock'
+});
+
+
+//database :  configDB.mysql_database
+connection.connect(function(err) {
+	if (err) { 
+		console.error('error connecting' + err.stack);
+                return;
+        }
+  console.log('connected as id' + connection.threadId);
+  //next();
+});
+
+
+
+
+//run socket only in /chat
+var mysql = require('mysql');
+// run the emit of EventSocket for the visit
+//eventEmitter.emit('visit');
+     
 var io = require('socket.io').listen(server.listen(port));
 
-//io.set('transports',['xhr-polling']);
-
 io.sockets.on('connection', function (socket) {
-     getIPs();
-   request('https://www.bitstamp.net/api/ticker/', function (error, response, body) { 
+     //   getIPs();
+  
+    request('https://www.bitstamp.net/api/ticker/', function (error, response, body) { 
       var chunk = JSON.parse(body);
        
       var bitcoinLastPrice = chunk.last;
       
       var welcomeMessage =  '<br> Welcome to BIT Chat. <br>1 Bitcoin = ' + chunk.last + ' USD';
-      var ipDetectedMessage =  '<br>Connection From: ' + app.get('ipaddress') + '<br>';
-	
-
-       socket.emit('message', { message: welcomeMessage }, function() {
-       
-            socket.emit('message', { message: ipDetectedMessage });
-      });
+      var ipDetectedMessage =  '<br>Connection From: ' + app.get('ipaddress') + '<br>'; 
+      socket.emit('message', { message: welcomeMessage }, function() {
+        });
     });
 
     
     socket.emit('newvisit', { connections: connections}); 
 
         //message: say });
-    // run the emit of EventSocket for the visit
-    eventEmitter.emit('visit');
-        
+       
     console.log("Connection " + socket.id + " accepting chat messages.");
     console.log(count);
     
@@ -270,5 +272,6 @@ io.sockets.on('connection', function (socket) {
    });
 });
 
+//io.set('transports',['xhr-polling']);
 
 module.exports = app;

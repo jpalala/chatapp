@@ -14,14 +14,15 @@ html
      body
         .container
             #content(style='width: 500px; height: 300px; margin: 0 0 20px 0; border: solid 1px #999; overflow-y: scroll;', class='col-md-8')
-            h1 Let's chat
-            .controls
-            | Name:
-            input#name(style='width:350px;')
-            br
-            input(id='field', style='width:350px;')
-            input.send(id='send', type='button', value='send')
-            br
-            | Chat Log:
-            input#status(style='width:500px;')
-            input#ipaddress(type='hidden')
+            .col-md-4
+                h1 Let's chat
+                .controls
+                | Name:
+                input#name(style='width:350px;')
+                br
+                input(id='field', style='width:350px;')
+                input.send(id='send', type='button', value='send')
+                br
+                | Chat Log:
+                input#status(style='width:500px;')
+                input#ipaddress(type='hidden')

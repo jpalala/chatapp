@@ -7,14 +7,14 @@ router.get('/', function(req, res, next) {
 });
 
 
-    // =====================================
-    // LOGIN ===============================
-    // =====================================
-    // show the login form
+// =====================================
+// LOGIN ===============================
+// =====================================
+// show the login form
     router.get('/login', function(req, res) {
 
-        // render the page and pass in any flash data if it exists
-        res.render('login', { message: req.flash('loginMessage') }); 
+	// render the page and pass in any flash data if it exists
+	res.render('login', { message: req.flash('loginMessage') }); 
     });
 
     // process the login form
@@ -25,8 +25,8 @@ router.get('/', function(req, res, next) {
     // show the signup form
     router.get('/signup', function(req, res) {
 
-        // render the page and pass in any flash data if it exists
-        res.render('signup', { message: req.flash('signupMessage') });
+	// render the page and pass in any flash data if it exists
+	res.render('signup', { message: req.flash('signupMessage') });
     });
 
     // process the login form
@@ -34,11 +34,7 @@ router.get('/', function(req, res, next) {
     // =====================================
     // SIGNUP ==============================
     // =====================================
-    // show the signup form
-    router.get('/chat', function(req, res) {
-         res.render('chat', { title: 'Chat' } );
-    });
-
+    // show the signup
 
 /* Get Projects page */
 router.get('/projects', function(req,res) {
@@ -50,8 +46,14 @@ router.get('/projects', function(req,res) {
       }); 
     });
 });
+
 /* GET Hello World page. */
 router.get('/helloworld', function(req, res) {
     res.render('helloworld', { title: 'Hello, World!' })
+});
+
+router.get('/chat', function(req, res) {
+
+	res.render('chat', { title: 'Chat Online' } );
 });
 module.exports = router;
