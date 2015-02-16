@@ -1,0 +1,40 @@
+
+function getIPs(server) {
+  var handles = process._getActiveHandles(),
+      ips = [];
+
+  for (var i = 0, handle, len = handles.length; i < len; ++i) {
+    handle = handles[i];
+    if (handle.readable
+        && handle.writable
+        && handle.server === server
+        && handle.remoteAddress) {
+      ips.push(handle.remoteAddress);
+    }
+  }
+ console.log(ips);
+  return ips;
+}
+
+
+//timeout function
+function clearTimeout( tO ) {
+  var t0 = 0;
+}
+function timeoutFunction() {
+   typing = false;
+   socket.emit(noLongerTypingMessage);
+}
+//run socket only in /chat
+var mysql = require('mysql');
+function onKeyDownNotEnter() {
+  if(typing == false) {
+    typing = true;
+    socket.emit(typingMessage);
+    timeout = setTimeout(timeoutFunction, 5000);
+  } else {
+    clearTimeout(timeout);
+    timeout = setTimeout(timeoutFunction, 5000);
+  }
+
+}

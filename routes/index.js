@@ -6,6 +6,12 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
+//CHAT
+
+router.get('/chat', function(req, res) {
+	res.render('chat', { title: 'Chat Online' } );
+});
+
 
 // =====================================
 // LOGIN ===============================
@@ -52,8 +58,4 @@ router.get('/helloworld', function(req, res) {
     res.render('helloworld', { title: 'Hello, World!' })
 });
 
-router.get('/chat', function(req, res) {
-
-	res.render('chat', { title: 'Chat Online' } );
-});
 module.exports = router;

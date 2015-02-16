@@ -17,12 +17,9 @@ var LocalStrategy = require('passport-local');
 var TwitterStrategy = require('passport-twitter');
 var flash = require('connect-flash');
 var events = require('events');
-//run socket only in /chat
-var mysql = require('mysql');
 
 // New Code
 var mongo = require('mongodb');
-
 var monk = require('monk');
 var db = monk('localhost:27017/nodetest1');
 //increase count functiobns
@@ -42,49 +39,15 @@ var counter = require('./counter');
 app.set('connections', connections);
 app.set('count', count);
 
-
-app.use(session({ secret: 'ilovescotchscotchyscotchscotch' })); // session secret
-app.use(passport.initialize());
-app.use(passport.session()); // persistent login sessions
-app.use(flash()); // use connect-flash for flash messages stored in session
-
-
-// uncomment after placing your favicon in /public
-//app.use(favicon(__dirname + '/public/favicon.ico'));
-app.use(logger('dev'));
-//app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(methodOverride('X-HTTP-Method-Override'));
-app.use(cookieParser());
-app.use(flash());
-
-
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
-
-
-app.use(express.static(__dirname + '/public'));
-
-
 //chat server port
-var port = 3700;
+var port = 80;
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var onlineusers = require('./routes/onlineusers');
-
-//fetch from mongoose mongoloid.js
 var mongoloid = require('./mongoloid');
-
 var msgs = mongoloid.retrieveMessages();
-
-// for chat typing/timeout setTimeout if user is typing through socket?
-var typing = false;
-var timeout = undefined;
-
 console.log(  msgs );
-
-//process.exit();
+process.exit();
 
 app.use(function(req, res,next) { 
     app.set('ipaddress', req.ip);
@@ -144,7 +107,6 @@ var configDB = require('./config/database.js');
 
 
 //console.log(configDB);
-/*
 var connection = mysql.createConnection({
     host     :  '127.0.0.1',
     user     :  'user1',
@@ -152,8 +114,8 @@ var connection = mysql.createConnection({
     port     : '/var/run/mysqld/mysqld.sock',
     sockePath  : '/var/run/mysqld/mysqld.sock'
 });
-*/
-/*
+
+
 //database :  configDB.mysql_database
 connection.connect(function(err) {
 	if (err) { 
@@ -163,9 +125,18 @@ connection.connect(function(err) {
   console.log('My SQL connected as id' + connection.threadId);
   //next();
 });
-*/
+
+
+
+
+//run socket only in /chat
+var mysql = require('mysql');
 // run the emit of EventSocket for the visit
 //eventEmitter.emit('visit');
+ 
+
+
+
 
 var io = require('socket.io').listen(server.listen(port));
 
@@ -174,10 +145,11 @@ io.sockets.on('connection', function (socket) {
     request('https://www.bitstamp.net/api/ticker/', function (error, response, body) { 
       var chunk = JSON.parse(body);
       var bitcoinLastPrice = chunk.last;
-      console.log(chunk.last);
+      
+      var welcomeMessage =  '<br> Welcome to BIT Chat. <br>1 Bitcoin = ' + chunk.last + ' USD' ;
       //emit welcome
      //var ipDetectedMessage =  '<br>Connection From: ' + app.get('ipaddress') + '<br>'; 
-             socket.emit('message', { message: '<br> Welcome to BIT Chat. <br>1 Bitcoin = ' + chunk.last + ' USD'  }); // function() { });
+             socket.emit('message', { message: welcomeMessage }); // function() { });
 	});
 
     
