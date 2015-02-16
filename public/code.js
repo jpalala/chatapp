@@ -81,6 +81,19 @@ $(document).ready(function() {
             sendMessage();
         }
     });
+
+     $.ajax({
+           url: "http://api.jpalala.com?callback=test&quot",
+           crossDomain: true,
+           jsonp: "callback",
+           dataType: "jsonp",
+      success: function(response) {
+               console.log(response);
+            }
+         }).done(function(data) {
+           //console.log(data);
+           $("#content").after('<p>It is now :'+ data.US_Pacific + ' PST and ' + data.PH + ' in the Philippines</p>');
+        });
 });
 
 $(window).on('beforeunload', function(){
