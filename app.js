@@ -190,31 +190,34 @@ io.sockets.on('connection', function (socket) {
     
     socket.on('send', function (data) {      
         io.sockets.emit('message', data);
-   	console.log(data);
-       // socket.on('umepal',  function(data) {
+             // socket.on('umepal',  function(data) {
        
        var dictionary = ['Chatbot says hello', 
                            'Chatbot says hi', 'Chatbot says you are welcome here', 
                            'Chatbot says you are so fine', 'Chatbot says Oh that\'s awesome', 
 			   'Chatbot says hello World to you too', 
                            'Chatbot says Are you talking to me?', 
-                      'Chatbot says sorry, keep chatting', 
-                  'Chatbot plays epal','Chatbot says Chat with me, you shall', 
-                  'Chatbot says that\'s what she said', 
-                  'Chatbot says that was a joke, right?'];
-         var say = dictionary[Math.round(Math.random() * (dictionary.length - 1))];
+                      	   'Chatbot says sorry, keep chatting', 
+                           'Chatbot plays epal','Chatbot says Chat with me, you shall', 
+                           'Chatbot says that\'s what she said', 
+                           'Chatbot says that was a joke, right?'];
+     
+       if(data.message == 'ciao') {
+            var say = "Buon Giorno!";
+       } else { 
+	   var say = dictionary[Math.round(Math.random() * (dictionary.length - 1))];
+           request('http://api.jpalala.com/email.php?to=robot%40mongoloid.jpalala.com&api=a258d468b4fe38e55afde3fe4e7d0a7ee11ed688&the_subject=New+Chat+Sent&the_msg=' + data.message , function (error, response, body) { 
+           console.log('Message sent');
+	   }); 
+       }
+     
          var botdata = { message: say, username: 'Chatty Joe'}; 
 	io.sockets.emit('message' , botdata);
         console.log(botdata);
-
         //add to mongodb database
-
     	//});
-
-
    });
 });
-
- //mongoose.connection.disconnect(); 
+//mongoose.connection.disconnect(); 
 
 module.exports = app;
