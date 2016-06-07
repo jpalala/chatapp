@@ -17,7 +17,7 @@
     "express": "~4.11.0",
     "express-session": "^1.10.2",
     "googleapis": "^1.1.2",
-    "jade": "~1.9.0",
+    "jade": "^1.11.0",
     "lodash": "^3.0.0",
     "method-override": "^2.2.0",
     "mongodb": " *",
@@ -33,6 +33,7 @@
     "passport-google-oauth": "^0.1.5",
     "passport-local": "~0.1.6",
     "passport-twitter": "~1.0.2",
+    "pug": "^2.0.0-beta2",
     "q": "^1.0.1",
     "request": "^2.53.0",
     "serve-favicon": "~2.2.0",
@@ -42,5 +43,10 @@
   "devDependencies": {
     "grunt": "^0.4.5",
     "grunt-contrib-jshint": "^0.11.0"
+  }, 
+  "engines" : 
+  { 
+    "node" : ">=0.10.3 <0.12"  
   }
+
 }

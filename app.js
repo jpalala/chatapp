@@ -126,7 +126,7 @@ app.use(function(err, req, res, next) {
     });
  });
 
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 3001);
 
 var server = app.listen(app.get('port'), function() {
   console.log('Express server listening on port ' + server.address().port);
@@ -166,7 +166,7 @@ connection.connect(function(err) {
 */
 // run the emit of EventSocket for the visit
 //eventEmitter.emit('visit');
-
+var port = 3001;
 var io = require('socket.io').listen(server.listen(port));
 
 io.sockets.on('connection', function (socket) {
