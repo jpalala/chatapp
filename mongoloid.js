@@ -3,9 +3,9 @@ var mongoose = require('mongoose');
 
 //mongoloidadmin:humong0us..
  
-     mongoose.createConnection('mongodb://128.199.103.10:27017/mongoloid', function(err) {
+mongoose.createConnection('mongodb://128.199.133.246:27017/mongoloid', function(err) {
     if (err) throw err;
-   });
+});
  
 var Schema = mongoose.Schema;
 var chatsSchema =  new Schema({
