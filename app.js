@@ -143,47 +143,25 @@ var server = app.listen(app.get('port'), function() {
 var configDB = require('./config/database.js');
 
 
-//console.log(configDB);
-/*
-var connection = mysql.createConnection({
-    host     :  '127.0.0.1',
-    user     :  'user1',
-    password :  'ZhbBf2QTQStNe',
-    port     : '/var/run/mysqld/mysqld.sock',
-    sockePath  : '/var/run/mysqld/mysqld.sock'
-});
-*/
-/*
-//database :  configDB.mysql_database
-connection.connect(function(err) {
-	if (err) { 
-		console.error('error connecting' + err.stack);
-                return;
-        }
-  console.log('My SQL connected as id' + connection.threadId);
-  //next();
-});
-*/
-// run the emit of EventSocket for the visit
-//eventEmitter.emit('visit');
 var port = 3001;
 var io = require('socket.io').listen(server.listen(port));
 
 io.sockets.on('connection', function (socket) {
   
-    request('https://www.bitstamp.net/api/ticker/', function (error, response, body) { 
-      var chunk = JSON.parse(body);
-      var bitcoinLastPrice = chunk.last;
-      console.log(chunk.last);
-      //emit welcome
-     //var ipDetectedMessage =  '<br>Connection From: ' + app.get('ipaddress') + '<br>'; 
-             socket.emit('message', { message: '<br> Welcome to BIT Chat. <br>1 Bitcoin = ' + chunk.last + ' USD'  }); // function() { });
-	});
+    request('https://www.bitstamp.net/api/ticker/', 
+      function (error, response, body) { 
+        var chunk = JSON.parse(body);
+        var bitcoinLastPrice = chunk.last;
+        console.log(chunk.last);
+        //var ipDetectedMessage =  '<br>Connection From: ' + app.get('ipaddress') + '<br>'; 
+        socket.emit('message', { 
+          message: '<br> Welcome to BIT Chat. <br>1 Bitcoin = ' + chunk.last + ' USD'  
+        });
+    });
 
     
     socket.emit('newvisit', { connections: connections}); 
 
-        //message: say });
        
     console.log("Connection " + socket.id + " accepting chat messages.");
     console.log('Count:' + count);
